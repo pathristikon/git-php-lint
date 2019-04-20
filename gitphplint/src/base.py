@@ -52,9 +52,6 @@ class Base:
 
     def do_php_lint(self, code):
         lint_output = self._execute_lint(code)
-        
-        if type(lint_output) == bytes:
-            lint_output = lint_output.decode("utf-8")
 
         if 'Errors parsing' in lint_output or 'Parse error' in lint_output:
             self.debug(code)
