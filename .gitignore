@@ -1,0 +1,16 @@
+*~
+*.conf
+*.egg
+*.egg-info
+*.pyc
+*.pyo
+*.swp
+*.pss
+.DS_Store
+.eggs/
+.pytest_cache/
+.tox/
+build/
+dist/
+.cache/
+.idea
