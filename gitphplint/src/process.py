@@ -21,10 +21,6 @@ class Process:
         else:
             stdout, stderr = process.communicate()
 
-            if not stdout or not stderr:
-                print("No git response")
-                sys.exit()
-
             if stderr:
                 return stderr.decode("utf-8").strip()
             else:
