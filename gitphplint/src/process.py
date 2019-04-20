@@ -1,4 +1,4 @@
-import subprocess
+import subprocess, sys
 from . import console
 
 class Process:
@@ -22,11 +22,8 @@ class Process:
             stdout, stderr = process.communicate()
 
             if not stdout or not stderr:
-                @console.output("error", "ERR: ")
-                def error_no_output():
-                    print("No git response")
-
-                error_no_output()
+                print("No git response")
+                sys.exit()
 
             if stderr:
                 return stderr.decode("utf-8").strip()
