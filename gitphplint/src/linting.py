@@ -1,4 +1,4 @@
-from . import base as b
+from . import base as b, string_processing as sp
 from . import process as p
 from concurrent.futures import ThreadPoolExecutor, thread
 from concurrent.futures import as_completed
@@ -8,6 +8,7 @@ class Linting(b.Base):
 
     def __init__(self):
         super().__init__()
+        self.Processes = p.Process()
 
     def main(self):
         """
@@ -18,7 +19,7 @@ class Linting(b.Base):
         self.check_argv_before_script()
 
         # get the list of files
-        files = self.get_files()
+        files = self.Processes.get_files()
 
         with ThreadPoolExecutor() as executor:
             make_files = {executor.submit(self.lint_file, f): f for f in files}
@@ -43,7 +44,7 @@ class Linting(b.Base):
                and self.compare_to_branch \
             else 'origin/master'
 
-        output = self.get_diff(filename, branch)
+        output = self.Processes.get_diff(filename, branch, self.Processes.get_pwd())
         return output
 
     def source_code(self, str):
@@ -56,11 +57,7 @@ class Linting(b.Base):
         :param str:
         :return:
         """
-        return b.Base.remove_lines_from_string(str, 5)
-
-    def get_files(self):
-        files = p.Process.run_process("git diff --name-only")
-        return list(filter(lambda x: ".php" in x, files.split("\n")))
+        return sp.remove_lines_from_string(str, 5)
 
     def lint_file(self, f):
         content = self.split_output(f)
