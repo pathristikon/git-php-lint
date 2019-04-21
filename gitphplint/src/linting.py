@@ -1,6 +1,6 @@
 from . import base as b
 from . import process as p
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, thread
 from concurrent.futures import as_completed
 
 
@@ -22,11 +22,16 @@ class Linting(b.Base):
 
         with ThreadPoolExecutor() as executor:
             make_files = {executor.submit(self.lint_file, f): f for f in files}
-            for future in as_completed(make_files):
-                try:
-                    print(future.result())
-                except Exception as e:
-                    print('An exception encountered: %s' % (e))
+            try:
+                for future in as_completed(make_files):
+                    try:
+                        print(future.result())
+                    except Exception as e:
+                        print('An exception encountered: %s' % (e))
+            except KeyboardInterrupt:
+                executor._threads.clear()
+                thread._threads_queues.clear()
+                print('\nShutdown complete.')
 
     def split_output(self, filename):
         """
