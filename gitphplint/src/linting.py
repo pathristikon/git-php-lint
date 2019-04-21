@@ -18,7 +18,7 @@ class Linting(b.Base):
         self.check_argv_before_script()
 
         # get the list of files
-        files = self.get_files()[:100]
+        files = self.get_files()
 
         with ThreadPoolExecutor() as executor:
             make_files = {executor.submit(self.lint_file, f): f for f in files}
