@@ -44,7 +44,7 @@ class Linting(b.Base):
                and self.compare_to_branch \
             else 'origin/master'
 
-        output = self.Processes.get_diff(filename, branch, self.Processes.get_pwd())
+        output = self.Processes.get_diff(filename, branch)
         return output
 
     def source_code(self, str):
