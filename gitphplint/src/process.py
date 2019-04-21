@@ -1,5 +1,5 @@
-import subprocess, sys
-from . import console
+import subprocess
+
 
 class Process:
 

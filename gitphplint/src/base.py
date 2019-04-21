@@ -4,6 +4,9 @@ import sys, os
 
 class Base:
 
+    def __init__(self):
+        pass
+
     def get_pwd(self):
         """
         Return the current path of the project
@@ -11,7 +14,7 @@ class Base:
         """
         return p.Process.run_process("pwd")
 
-    def get_diff(self):
+    def get_diff(self, filename):
         """
         Get the git diff for added in the current directory
         :return:
@@ -24,16 +27,7 @@ class Base:
                                      "--ignore-blank-lines "
                                      "--unified=0 "
                                      "--exit-code "
-                                     "--no-prefix")
-
-    def get_base_name(self, s):
-        """
-        Get the base name of file from string
-        :param s:
-        :return:
-        """
-        line = s.splitlines()[0]
-        return list(filter(None, line.split(" ")))[0]
+                                     "--no-prefix " + filename)
 
     @staticmethod
     def remove_lines_from_string(s, remove_num):
@@ -54,10 +48,13 @@ class Base:
         lint_output = self._execute_lint(code)
 
         if 'Errors parsing' in lint_output or 'Parse error' in lint_output:
-            self.debug(code)
-            self.errors_encountered(lint_output)
+            message = self.errors_encountered(lint_output)
+            if hasattr(self, 'debug_on') and self.debug_on:
+                message += self.debug(code)
         else:
-            self.success_message("OK")
+            message = self.success_message("OK")
+
+        return message
 
     def _execute_lint(self, code):
         """
@@ -74,11 +71,11 @@ class Base:
         :return:
         """
         if not os.path.exists(self.get_pwd() + "/.git"):
-            self.errors_encountered("- Missing .git folder")
+            print(self.errors_encountered("- Missing .git folder"))
             sys.exit()
 
         if len(sys.argv) > 1:
-            if sys.argv[1] == '-h' or sys.argv[1] == '--help':
+            if '-h' in sys.argv or '--help' in sys.argv:
                 print("Usage: git-php-lint [options]\n \n"
                       "Options: \n"
                       "  --debug         outputs the added php for debug purposes \n"
@@ -86,11 +83,13 @@ class Base:
                       "  --help          get help \n")
                 sys.exit()
 
+            elif '--debug' in sys.argv:
+                self.debug_on = True
+
+
+
     def debug(self, code):
-        if len(sys.argv) > 1:
-            if sys.argv[1] == '--debug':
-                print("\n".join(list(self.add_line_numbers(code))))
-                print("\n")
+        return "\n".join(list(self.add_line_numbers(code))) + "\n"
 
     def add_line_numbers(self, code):
         """
@@ -107,12 +106,12 @@ class Base:
 
     @console.output("notice", "Starting linting for")
     def notice_checking_file(self, s):
-        return self.get_base_name(s)
+        return s
 
     @console.output("error", "Errors encountered")
     def errors_encountered(self, output):
-        print(output)
+        return output
 
     @console.output("success", "")
     def success_message(self, output):
-        print(output)
+        return output

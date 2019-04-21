@@ -15,7 +15,7 @@ def output(type, message):
             else:
                 call_var = normal
 
-            print(format_text("%s %s" % (message, args[1]), call_var))
+            return format_text("%s %s" % (message, args[1]), call_var)
         return wrapped_f
     return wrap
 
