@@ -34,7 +34,12 @@ class Linting(b.Base):
         Split the git diff and return list of parts
         :return:
         """
-        output = self.get_diff(filename)
+        branch = self.compare_to_branch \
+            if hasattr(self, 'compare_to_branch') \
+               and self.compare_to_branch \
+            else 'origin/master'
+
+        output = self.get_diff(filename, branch)
         return output
 
     def source_code(self, str):

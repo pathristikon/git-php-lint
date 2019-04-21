@@ -14,7 +14,7 @@ class Base:
         """
         return p.Process.run_process("pwd")
 
-    def get_diff(self, filename):
+    def get_diff(self, filename, origin):
         """
         Get the git diff for added in the current directory
         :return:
@@ -27,7 +27,8 @@ class Base:
                                      "--ignore-blank-lines "
                                      "--unified=0 "
                                      "--exit-code "
-                                     "--no-prefix " + filename)
+                                     "--no-prefix " +
+                                     origin + " " + filename)
 
     @staticmethod
     def remove_lines_from_string(s, remove_num):
@@ -78,13 +79,20 @@ class Base:
             if '-h' in sys.argv or '--help' in sys.argv:
                 print("Usage: git-php-lint [options]\n \n"
                       "Options: \n"
-                      "  --debug         outputs the added php for debug purposes \n"
-                      "  -h              get help \n"
-                      "  --help          get help \n")
+                      "  --debug                            outputs the added php for debug purposes \n\n"
+                      "  --with-branch=[origin/master]      compare the files with specified origin or \n"
+                      "                                     branch. Default: origin/master \n\n"
+                      "  -h || --help                       get help \n\n")
+
                 sys.exit()
 
-            elif '--debug' in sys.argv:
+            if '--debug' in sys.argv:
                 self.debug_on = True
+
+            is_branch_set = [i for i in sys.argv if '--with-branch=' in i]
+            if is_branch_set:
+                get_branch = is_branch_set[0].split("=")[1]
+                self.compare_to_branch = get_branch
 
 
 
