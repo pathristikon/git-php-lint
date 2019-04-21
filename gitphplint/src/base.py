@@ -76,6 +76,7 @@ class Base:
             sys.exit()
 
         if len(sys.argv) > 1:
+            # get help
             if '-h' in sys.argv or '--help' in sys.argv:
                 print("Usage: git-php-lint [options]\n \n"
                       "Options: \n"
@@ -86,9 +87,11 @@ class Base:
 
                 sys.exit()
 
+            # debug mode
             if '--debug' in sys.argv:
                 self.debug_on = True
 
+            # compare with origin/branch
             is_branch_set = [i for i in sys.argv if '--with-branch=' in i]
             if is_branch_set:
                 get_branch = is_branch_set[0].split("=")[1]

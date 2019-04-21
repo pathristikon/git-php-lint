@@ -24,8 +24,7 @@ class Linting(b.Base):
             make_files = {executor.submit(self.lint_file, f): f for f in files}
             for future in as_completed(make_files):
                 try:
-                    res = future.result()
-                    print(res)
+                    print(future.result())
                 except Exception as e:
                     print('An exception encountered: %s' % (e))
 
