@@ -4,8 +4,7 @@ from gitphplint.src.linting import Linting
 
 
 def main():
-    lint = Linting()
-    lint.main()
+    Linting().main()
 
 
 if __name__ == '__main__':
