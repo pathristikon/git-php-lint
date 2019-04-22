@@ -36,12 +36,12 @@ class Process:
         return list(filter(lambda x: ".php" in x, files.split("\n")))
 
     @staticmethod
-    def get_diff(filename, origin):
+    def get_diff(filename, origin, pwd):
         """
         Get the git diff for added in the current directory
         :return:
         """
-        return Process.run_process("cd " + str(Process.get_pwd()) + " && "
+        return Process.run_process("cd " + str(pwd) + " && "
                                      "git diff "
                                      "--diff-filter=cdruxb "
                                      "--word-diff=color "

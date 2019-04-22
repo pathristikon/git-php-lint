@@ -8,7 +8,6 @@ class Linting(b.Base):
 
     def __init__(self):
         super().__init__()
-        self.Processes = p.Process()
 
     def main(self):
         """
@@ -44,7 +43,7 @@ class Linting(b.Base):
                and self.compare_to_branch \
             else 'origin/master'
 
-        output = self.Processes.get_diff(filename, branch)
+        output = self.Processes.get_diff(filename, branch, self.pwd)
         return output
 
     def source_code(self, str):

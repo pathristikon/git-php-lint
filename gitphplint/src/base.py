@@ -1,12 +1,14 @@
 from . import console
 from . import string_processing as sp
+from . import process as p
 import sys, os
 
 
 class Base:
 
     def __init__(self):
-        pass
+        self.Processes = p.Process()
+        self.pwd = self.Processes.get_pwd()
 
     def do_php_lint(self, code):
         lint_output = self.Processes.execute_lint(code)
@@ -26,7 +28,7 @@ class Base:
         Before script executes, this gets executed
         :return:
         """
-        if not os.path.exists(self.Processes.get_pwd() + "/.git"):
+        if not os.path.exists(self.pwd + "/.git"):
             print(self.errors_encountered("- Missing .git folder"))
             sys.exit()
 
