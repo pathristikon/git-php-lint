@@ -61,4 +61,4 @@ class Linting(b.Base):
     def lint_file(self, f):
         content = self.split_output(f)
         sourcecode = self.source_code(content)
-        return self.notice_checking_file(f) + self.do_php_lint(sourcecode)
+        return self.notice_checking_file(f) + self.do_php_lint(sourcecode, f)

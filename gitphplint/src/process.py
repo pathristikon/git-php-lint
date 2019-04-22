@@ -64,7 +64,17 @@ class Process:
     def execute_lint(code):
         """
         Execute the php lint
+        for a part of the code
         :param code:
         :return:
         """
         return Process.run_process("echo '<?php %s' | php -l" % code)
+
+    @staticmethod
+    def execute_file_fint(filename):
+        """
+        Execute lint for entire file
+        :param filename:
+        :return:
+        """
+        return Process.run_process("php -l %s" % filename)

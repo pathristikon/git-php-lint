@@ -10,8 +10,11 @@ class Base:
         self.Processes = p.Process()
         self.pwd = self.Processes.get_pwd()
 
-    def do_php_lint(self, code):
-        lint_output = self.Processes.execute_lint(code)
+    def do_php_lint(self, code, filename):
+        if hasattr(self, 'filelint'):
+            lint_output = self.Processes.execute_file_fint(filename)
+        else:
+            lint_output = self.Processes.execute_lint(code)
 
         if 'Errors parsing' in lint_output or 'Parse error' in lint_output:
             message = self.errors_encountered(lint_output)
@@ -40,20 +43,26 @@ class Base:
                       "  --debug                            outputs the added php for debug purposes \n\n"
                       "  --with-branch=[origin/master]      compare the files with specified origin or \n"
                       "                                     branch. Default: origin/master \n\n"
+                      "  --file-lint                        Instead of linting the bit of code provided by \n"
+                      "                                     git, lint the file itself \n\n"
                       "  -h || --help                       get help \n\n")
 
                 sys.exit()
 
             # debug mode
             if '--debug' in sys.argv:
-                self.debug_on = True
+                if hasattr(self, 'filelint'):
+                    self.debug_on = True
+
+            # linting entire file
+            if '--file-lint' in sys.argv:
+                self.filelint = True
 
             # compare with origin/branch
             is_branch_set = [i for i in sys.argv if '--with-branch=' in i]
             if is_branch_set:
                 get_branch = is_branch_set[0].split("=")[1]
                 self.compare_to_branch = get_branch
-
 
 
     def debug(self, code):
