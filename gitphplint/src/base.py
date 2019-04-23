@@ -38,15 +38,7 @@ class Base:
         if len(sys.argv) > 1:
             # get help
             if '-h' in sys.argv or '--help' in sys.argv:
-                print("Usage: git-php-lint [options]\n \n"
-                      "Options: \n"
-                      "  --debug                            outputs the added php for debug purposes \n\n"
-                      "  --with-branch=[origin/master]      compare the files with specified origin or \n"
-                      "                                     branch. Default: origin/master \n\n"
-                      "  --file-lint                        Instead of linting the bit of code provided by \n"
-                      "                                     git, lint the file itself \n\n"
-                      "  -h || --help                       get help \n\n")
-
+                print(open('HELP.rst').read())
                 sys.exit()
 
             # debug mode
