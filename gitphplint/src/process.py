@@ -53,14 +53,6 @@ class Process:
                                      origin + " " + filename)
 
     @staticmethod
-    def get_pwd():
-        """
-        Return the current path of the project
-        :return:
-        """
-        return Process.run_process("pwd")
-
-    @staticmethod
     def execute_lint(code):
         """
         Execute the php lint

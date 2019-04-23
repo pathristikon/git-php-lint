@@ -8,7 +8,7 @@ class Base:
 
     def __init__(self):
         self.Processes = p.Process()
-        self.pwd = self.Processes.get_pwd()
+        self.pwd = os.getcwd()
 
     def do_php_lint(self, code, filename):
         if hasattr(self, 'filelint'):
