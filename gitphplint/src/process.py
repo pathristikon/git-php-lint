@@ -37,7 +37,7 @@ class Process:
 
         if file_lint:
             # add untracked git files, prepared for linting
-            untracked = Process.get_untracked_files("/work/ejobs-live/")
+            untracked = Process.get_untracked_files(pwd)
             [names.append(file) for file in untracked.split("\n")]
 
         return names

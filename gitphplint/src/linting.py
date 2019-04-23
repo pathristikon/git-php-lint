@@ -33,6 +33,9 @@ class Linting(b.Base):
                 thread._threads_queues.clear()
                 print('\nShutdown complete.')
 
+        if not hasattr(self, 'filelint'):
+            print("Omitting git untracked files. See help for details.")
+
     def split_output(self, filename):
         """
         Split the git diff and return list of parts
