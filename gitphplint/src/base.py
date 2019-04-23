@@ -43,8 +43,7 @@ class Base:
 
             # debug mode
             if '--debug' in sys.argv:
-                if not hasattr(self, 'filelint'):
-                    self.debug_on = True
+                self.debug_on = True
 
             # linting entire file
             if '--file-lint' in sys.argv:
