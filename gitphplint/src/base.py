@@ -1,7 +1,7 @@
 from . import console
 from . import string_processing as sp
 from . import process as p
-import sys, os
+import sys, os, pkgutil
 
 
 class Base:
@@ -38,7 +38,7 @@ class Base:
         if len(sys.argv) > 1:
             # get help
             if '-h' in sys.argv or '--help' in sys.argv:
-                print(open('HELP.rst').read())
+                print(pkgutil.get_data('gitphplint', 'HELP.rst').decode("utf8"))
                 sys.exit()
 
             # debug mode

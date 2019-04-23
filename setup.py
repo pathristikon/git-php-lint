@@ -14,6 +14,9 @@ setup(
     description="Lint the PHP added in git project",
     author="Dumitru Alexandru",
     license="MIT",
+    package_data={
+        'gitphplint': ['HELP.rst']
+    },
     entry_points={
         "console_scripts": [
             "git-php-lint = gitphplint.__main__:main",
