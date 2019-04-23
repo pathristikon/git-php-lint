@@ -18,7 +18,7 @@ class Linting(b.Base):
         self.check_argv_before_script()
 
         # get the list of files
-        files = self.Processes.get_files()
+        files = self.Processes.get_files(self.pwd, (self.filelint if hasattr(self, 'filelint') else False))
 
         with ThreadPoolExecutor() as executor:
             make_files = {executor.submit(self.lint_file, f): f for f in files}

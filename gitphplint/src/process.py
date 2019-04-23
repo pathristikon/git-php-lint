@@ -1,4 +1,4 @@
-import subprocess
+import subprocess, os
 
 
 class Process:
@@ -27,13 +27,20 @@ class Process:
                 return stdout.decode("utf-8").strip()
 
     @staticmethod
-    def get_files():
+    def get_files(pwd, file_lint):
         """
         Get a file list of PHP files
         :return:
         """
         files = Process.run_process("git diff --name-only")
-        return list(filter(lambda x: ".php" in x, files.split("\n")))
+        names = list(filter(lambda x: ".php" in x, files.split("\n")))
+
+        if file_lint:
+            # add untracked git files, prepared for linting
+            untracked = Process.get_untracked_files("/work/ejobs-live/")
+            [names.append(file) for file in untracked.split("\n")]
+
+        return names
 
     @staticmethod
     def get_diff(filename, origin, pwd):
@@ -51,6 +58,14 @@ class Process:
                                      "--exit-code "
                                      "--no-prefix " +
                                      origin + " " + filename)
+
+    @staticmethod
+    def get_untracked_files(pwd):
+        return Process.run_process("cd " + str(pwd) + " && "
+                                                      "git ls-files "
+                                                      "--others "
+                                                      "--exclude-standard "
+                                                      "*.php")
 
     @staticmethod
     def execute_lint(code):
