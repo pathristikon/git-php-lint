@@ -13,6 +13,7 @@ setup(
     version="1.0.0",
     description="Lint the PHP added in git project",
     author="Dumitru Alexandru",
+    license="MIT",
     entry_points={
         "console_scripts": [
             "git-php-lint = gitphplint.__main__:main",
