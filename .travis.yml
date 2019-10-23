@@ -10,4 +10,5 @@ install:
   - python3 setup.py install
 
 script:
-  - git-php-lint
+  - git-php-lint -v
+  - python3 -m unittest gitphplint/tests/*.py 
