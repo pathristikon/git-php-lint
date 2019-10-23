@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/pathristikon/git-php-lint.svg?branch=master)](https://travis-ci.org/pathristikon/git-php-lint)
+
+
 # Git php lint
 
 Git php lint is a Python library which lints the PHP code added to git versioning system.
